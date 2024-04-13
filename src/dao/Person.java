@@ -16,6 +16,14 @@ public class Person {
     public Person() {
     }
 
+    public char getSex() {
+        return sex;
+    }
+
+    public int getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
