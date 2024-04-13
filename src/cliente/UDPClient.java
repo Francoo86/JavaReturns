@@ -26,7 +26,7 @@ public class UDPClient {
         }
     }
 
-    public String sendMessage(String message, int bufferSize){
+    public String sendMessage(String message){
         try {
             InetAddress address = InetAddress.getByName(HOSTNAME);
             DatagramPacket req = new DatagramPacket(message.getBytes(), message.length(), address, BASE_PORT);
