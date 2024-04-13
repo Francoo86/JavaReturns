@@ -26,11 +26,20 @@ public class DictionaryService {
         }
     }
 
-    public void addWord(String word, String def) {
-
+    public void addWord(String word) {
+        try {
+            Word newWord = new Word();
+            newWord.setWordName(word);
+            wordDao.create(newWord);
+        }
+        catch (SQLException e) {
+            System.out.printf("SQL: Can't add Word %s to dictionary because: %s", word, e);
+        }
     }
 
-    public void addDefinition() {}
+    public void addDefinition(String word, String def) {
+
+    }
 
     public void searchWord() {}
 }

@@ -10,13 +10,14 @@ import java.util.Collection;
 public class Word {
     @DatabaseField(generatedId = true)
     private int id;
-    @DatabaseField
+    //needs to be unique pls
+    @DatabaseField(unique = true)
     public String wordName;
     @ForeignCollectionField
     Collection<WordDefinition> definitions;
 
     //empty constructor for this guy
-    Word(){}
+    public Word(){}
 
     public String getWordName() {
         return wordName;

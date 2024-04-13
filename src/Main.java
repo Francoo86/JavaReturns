@@ -19,7 +19,7 @@ public class Main {
         try {
             ConnectionSource connSource = new JdbcConnectionSource(dbUrl);
             DictionaryService dictService = new DictionaryService(connSource);
-
+            dictService.addWord("porotos");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
