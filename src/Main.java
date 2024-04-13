@@ -1,3 +1,4 @@
+import Servidor.services.DictionaryService;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
@@ -17,14 +18,8 @@ public class Main {
         String dbUrl = "jdbc:sqlite:sample.db";
         try {
             ConnectionSource connSource = new JdbcConnectionSource(dbUrl);
-            Dao<Person, Integer> personDao = DaoManager.createDao(connSource, Person.class);
+            DictionaryService dictService = new DictionaryService(connSource);
 
-            TableUtils.createTable(connSource, Person.class);
-
-            Person person = new Person();
-            person.setName("Juanito Perez");
-            person.setSex('m');
-            personDao.create(person);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

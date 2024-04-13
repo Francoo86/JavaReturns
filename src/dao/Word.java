@@ -12,17 +12,11 @@ public class Word {
     private int id;
     @DatabaseField
     public String wordName;
-    @DatabaseField
-    public String definition;
     @ForeignCollectionField
     Collection<WordDefinition> definitions;
 
     //empty constructor for this guy
     Word(){}
-
-    public String getDefinition() {
-        return definition;
-    }
 
     public String getWordName() {
         return wordName;
@@ -34,10 +28,6 @@ public class Word {
 
     public Collection<WordDefinition> getDefinitions() {
         return definitions;
-    }
-
-    public void setDefinition(String definition) {
-        this.definition = definition;
     }
 
     public void setWordName(String wordName) {
