@@ -35,8 +35,9 @@ public class ServidorUDP {
             if ( connection != null ){
                 System.out.println("Conexión exitosa!");
                 statement.setQueryTimeout(30);  // set timeout to 30 sec.
-                statement.executeUpdate("drop table if exists person");
-                statement.executeUpdate("create table person (id integer, name string, sexo string)");
+                statement.execute("INSERT into PERSON (id, name, sex) VALUES (2, 'el pepe', 'm')");
+                //statement.executeUpdate("drop table if exists person");
+                //statement.executeUpdate("create table person (id integer, name VARCHAR, sexo string)");
             }
         }
         catch ( Exception ex ) {
