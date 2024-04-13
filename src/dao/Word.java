@@ -1,7 +1,10 @@
 package dao;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
+
+import java.util.Collection;
 
 @DatabaseTable
 public class Word {
@@ -11,6 +14,8 @@ public class Word {
     public String wordName;
     @DatabaseField
     public String definition;
+    @ForeignCollectionField
+    Collection<WordDefinition> definitions;
 
     //empty constructor for this guy
     Word(){}
@@ -25,6 +30,10 @@ public class Word {
 
     public int getId() {
         return id;
+    }
+
+    public Collection<WordDefinition> getDefinitions() {
+        return definitions;
     }
 
     public void setDefinition(String definition) {
