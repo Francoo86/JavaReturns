@@ -4,8 +4,8 @@ import java.util.Collection;
 
 public interface IEntityDAO <T> {
     void add(T entity);
-    Collection<T> getList();
     void update(T entity);
-    T findById(T entityId);
+    T findByWordName(String wordName);
     void delete(T entityId);
+    Collection<T> findAll();
 }
