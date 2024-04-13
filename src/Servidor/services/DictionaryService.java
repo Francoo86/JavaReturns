@@ -10,13 +10,15 @@ import dao.WordDefinition;
 import java.sql.SQLException;
 
 public class DictionaryService {
-    private Dao<Word, Integer> wordDao;
+    private Dao<Word, String> wordDao;
+    private Dao<WordDefinition, String> definitionDao;
 
     //inject this connection because it looks better.
     public DictionaryService(ConnectionSource connSource) {
         //this.connSource = connSource;
         try {
             this.wordDao = DaoManager.createDao(connSource, Word.class);
+            this.definitionDao = DaoManager.createDao(connSource, WordDefinition.class);
             //Setup this service if first time.
             TableUtils.createTableIfNotExists(connSource, Word.class);
             TableUtils.createTableIfNotExists(connSource, WordDefinition.class);
@@ -38,6 +40,22 @@ public class DictionaryService {
     }
 
     public void addDefinition(String word, String def) {
+        try {
+            Word tempWord = wordDao.queryBuilder().where().eq("wordName", word).queryForFirst();
+            //System.out.println(tempWord.getId());
+            if(tempWord == null) {
+                return;
+            }
+
+            //TODO: Search a better way for this.
+            WordDefinition newDefinition = new WordDefinition();
+            newDefinition.setDef(def);
+            newDefinition.setWord(tempWord);
+            definitionDao.create(newDefinition);
+        }
+        catch(SQLException e) {
+            System.out.printf("aaaa");
+        }
 
     }
 

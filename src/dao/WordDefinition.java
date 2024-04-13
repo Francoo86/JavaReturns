@@ -13,7 +13,7 @@ public class WordDefinition {
     @DatabaseField
     private String def;
 
-    WordDefinition() {}
+    public WordDefinition() {}
 
     public String getDef() {
         return def;

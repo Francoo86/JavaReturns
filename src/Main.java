@@ -19,7 +19,9 @@ public class Main {
         try {
             ConnectionSource connSource = new JdbcConnectionSource(dbUrl);
             DictionaryService dictService = new DictionaryService(connSource);
-            dictService.addWord("porotos");
+            //dictService.addWord("porotos");
+            dictService.addDefinition("porotos", "comida tipica de chile");
+            dictService.addDefinition("porotos", "cuando haces porotos");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
