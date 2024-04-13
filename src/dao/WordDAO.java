@@ -28,22 +28,17 @@ public class WordDAO implements IEntityDAO<Word, String> {
 
     @Override
     public void add(Word entity) {
-
-    }
-
-    @Override
-    public void update(Word entity) {
-
-    }
+        try{
+            wordManager.create(entity);
+        }
+        catch (SQLException e) {
+            System.out.printf("WordDAO: Can't add word because: %s", e);
+        }
+    };
 
     @Override
     public Word findByWordName(String wordName) {
         return null;
-    }
-
-    @Override
-    public void delete(Word entityId) {
-
     }
 
     @Override
