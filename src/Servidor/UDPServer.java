@@ -13,6 +13,7 @@ import java.sql.SQLException;
 public class UDPServer {
     private DatagramSocket socket;
     private DictionaryService dictService;
+    public static final int MAX_BYTES = 1000;
 
     public UDPServer(String url, int port) {
         try {
@@ -32,11 +33,14 @@ public class UDPServer {
     public void listenClients() {
         try {
             while (true) {
-                byte[] buffer = new byte[1000];
-                DatagramPacket peticion = new DatagramPacket(buffer, buffer.length);
-                socket.receive(peticion);
-                System.out.println("Mensaje recibido: " + new String(peticion.getData()));
-                DatagramPacket respuesta = new DatagramPacket(peticion.getData(), peticion.getLength(), peticion.getAddress(), peticion.getPort());
+                byte[] buffer = new byte[MAX_BYTES];
+                //Escuchar clientes.
+                DatagramPacket req = new DatagramPacket(buffer, MAX_BYTES);
+                socket.receive(req);
+
+                //Mensaje recibido.
+                System.out.println("Mensaje recibido: " + new String(req.getData()));
+                DatagramPacket respuesta = new DatagramPacket(req.getData(), req.getLength(), req.getAddress(), req.getPort());
                 socket.send(respuesta);
             }
         }
