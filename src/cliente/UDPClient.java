@@ -16,7 +16,7 @@ public class UDPClient {
     //Client data.
     private DatagramSocket socket;
 
-    UDPClient() {
+    public UDPClient() {
         try {
             socket = new DatagramSocket();
             socket.setSoTimeout(5000);
@@ -28,6 +28,8 @@ public class UDPClient {
 
     public String sendMessage(String message){
         try {
+            //clear the message.
+            message = message.trim();
             InetAddress address = InetAddress.getByName(HOSTNAME);
             DatagramPacket req = new DatagramPacket(message.getBytes(), message.length(), address, BASE_PORT);
 
