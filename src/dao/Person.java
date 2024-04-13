@@ -5,15 +5,15 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable
 public class Person {
-    @DatabaseField(id = true, allowGeneratedIdInsert = true)
+    @DatabaseField(generatedId = true)
     private int id;
+    @DatabaseField
     private String name;
+    @DatabaseField
     private char sex;
 
-    public Person(int id, String name, char sex) {
-        this.id = id;
-        this.name = name;
-        this.sex = sex;
+    //ORMLite needs no arg constructor.
+    public Person() {
     }
 
     public String getName() {
@@ -22,5 +22,9 @@ public class Person {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setSex(char sex){
+        this.sex = sex;
     }
 }
