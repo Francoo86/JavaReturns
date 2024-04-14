@@ -1,17 +1,14 @@
 import Servidor.services.DictionaryService;
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
-import com.j256.ormlite.table.TableUtils;
-import dao.Person;
+import genericmenu.MenuApp;
 
 import java.sql.SQLException;
 
-public class Main {
+public class MainClient {
     public static void main(String[] args) {
-        testPersonDao();
-        System.out.println("Hello world!");
+        MenuApp menu = new MenuApp();
+        menu.runMenu();
     }
 
     private static void testPersonDao() {
@@ -20,8 +17,8 @@ public class Main {
             ConnectionSource connSource = new JdbcConnectionSource(dbUrl);
             DictionaryService dictService = new DictionaryService(connSource);
             //dictService.addWord("porotos");
-            dictService.addDefinition("porotos", "comida tipica de chile");
-            dictService.addDefinition("porotos", "cuando haces porotos");
+            dictService.addDefinition("porotos", "prueba 5to significado");
+            dictService.addDefinition("porotos", "hola si");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
