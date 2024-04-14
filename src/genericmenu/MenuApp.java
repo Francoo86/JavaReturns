@@ -140,6 +140,7 @@ public class MenuApp {
             try{
                 if (doOptions()){
                     sc.close();
+                    client.closeConn();
                     break;
                 }
             }
