@@ -24,8 +24,8 @@ public class DictionaryService {
         wordDao.add(newWord);
     }
 
-    public void addDefinition(String word, String def) {
-        wordDao.addMeaning(word, def);
+    public boolean addDefinition(String word, String def) {
+        return wordDao.addMeaning(word, def);
     }
 
     public Word lookupWord(String wordName) {
