@@ -82,7 +82,7 @@ public class UDPServer {
             sb.append("Monedas disponibles:\n[");
             for(int i = 0; i < currencies.size(); i++){
                 sb.append(currencies.get(i));
-                if (i < contents.size() - 1) {
+                if (i < currencies.size() - 1) {
                     sb.append(", ");
                 }
             }
