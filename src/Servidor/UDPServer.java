@@ -42,6 +42,9 @@ public class UDPServer {
                 socket.receive(req);
 
                 //Mensaje recibido.
+                String receivedMessage = new String(req.getData());
+
+
                 System.out.println("Mensaje recibido: " + new String(req.getData()));
                 DatagramPacket respuesta = new DatagramPacket(req.getData(), req.getLength(), req.getAddress(), req.getPort());
                 socket.send(respuesta);

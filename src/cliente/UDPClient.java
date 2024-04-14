@@ -42,7 +42,7 @@ public class UDPClient {
             //if any response.
             socket.receive(resp);
 
-            return new String(buff);
+            return new String(resp.getData());
         }
         catch(IOException e) {
             System.out.printf("IOError: %s", e);
