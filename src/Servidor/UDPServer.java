@@ -63,13 +63,21 @@ public class UDPServer {
         return sb.toString();
     }
 
+    public String formatAddDictionary(String word, String meaning) {
+        boolean check = dictService.addDefinition(word, meaning);
+        return String.format("El significado de %s%s fue añadido.", word, check == true ? "" : " no");
+    }
+
     public String handleServices(List<String> contents) {
         Services serv = getService(contents.get(0));
+
         String response = "";
         switch (serv) {
             case SEARCH_WORD:
                 response = formatLookupWordResp(contents.get(1));
                 return response;
+            case ADD_MEANING:
+                return formatAddDictionary(contents.get(1), contents.get(2));
         }
 
         return "NOT_IMPLEMENTED";
