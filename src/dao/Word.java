@@ -5,6 +5,7 @@ import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.Collection;
+import java.util.List;
 
 @DatabaseTable
 public class Word {
@@ -14,7 +15,7 @@ public class Word {
     @DatabaseField(unique = true)
     public String wordName;
     @ForeignCollectionField
-    Collection<WordDefinition> definitions;
+    List<WordDefinition> definitions;
 
     //empty constructor for this guy
     public Word(){}
@@ -27,7 +28,7 @@ public class Word {
         return id;
     }
 
-    public Collection<WordDefinition> getDefinitions() {
+    public List<WordDefinition> getDefinitions() {
         return definitions;
     }
 

@@ -73,10 +73,10 @@ public class MeaningDAO implements IEntityDAO<WordDefinition, Integer> {
         return null;
     }
 
-    public Collection<WordDefinition> findSimilar(String criteria) {
+    public List<WordDefinition> findSimilar(String criteria) {
         //return null;
         try {
-            Collection<WordDefinition> currDef = queryBuilder.where().like("def", "'%"+criteria+"%'").query();
+            List<WordDefinition> currDef = queryBuilder.where().like("def", "'%"+criteria+"%'").query();
             return currDef;
         }catch (SQLException e) {
             System.out.printf("MeaningDAO: We can't search similar definitions holding %s because: %e", criteria, e);
