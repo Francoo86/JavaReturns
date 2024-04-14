@@ -21,7 +21,7 @@ public class ExchangeAPIClient {
     private CurrencyResponse connectData(String type){
         type = type.toLowerCase();
         try {
-            URL url = new URL("https://api.exchangerate-api.com/v4/latest/" + type);
+            URL url = new URL(API_URL + type);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
