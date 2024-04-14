@@ -50,7 +50,6 @@ public class Helpers {
         String[] strings = matcher.group(2).split(",\\s*");
         for (String str : strings) {
             parsedContents.add(str);
-            //System.out.println("String: " + str);
         }
 
         return parsedContents;
