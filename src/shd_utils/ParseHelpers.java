@@ -60,7 +60,7 @@ public class ParseHelpers {
 
     public static boolean isValidWord(String word) {
         if(word.length() < REQUIRED_WORD_SIZE) {
-            System.out.printf("Las palabras deberían tener al menos %s caracteres de longitud.", REQUIRED_WORD_SIZE);
+            //System.out.printf("Las palabras deberían tener al menos %s caracteres de longitud.", REQUIRED_WORD_SIZE);
             return false;
         }
 
