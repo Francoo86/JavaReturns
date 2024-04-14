@@ -9,15 +9,18 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Map;
 
 //Limit this guy to ExchangeRATE
 public class ExchangeAPIClient {
     public static String API_URL = "https://api.exchangerate-api.com/v4/latest/";
     private static int SUCCESS_CODE = 200;
+    private Map<String, CurrencyResponse> cachedResponses;
 
     private CurrencyResponse connectData(String type){
+        type = type.toLowerCase();
         try {
-            URL url = new URL("https://api.exchangerate-api.com/v4/latest/" + type.toLowerCase());
+            URL url = new URL("https://api.exchangerate-api.com/v4/latest/" + type);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
@@ -35,7 +38,10 @@ public class ExchangeAPIClient {
                 }
                 br.close();
                 String output = sb.toString();
-                return new Gson().fromJson(output, CurrencyResponse.class);
+                CurrencyResponse data = new Gson().fromJson(output, CurrencyResponse.class);
+                cachedResponses.put(type, data);
+
+                return data;
             }
         } catch (MalformedURLException e) {
 
@@ -50,6 +56,14 @@ public class ExchangeAPIClient {
     }
 
     public CurrencyResponse getCurrencyData(String type){
-        return connectData(type);
+        CurrencyResponse cached = cachedResponses.get(type);
+
+        if(cached == null) {
+            System.out.println("[ExchangeClient]: Obteniendo los datos para la moneda " + type);
+            return connectData(type);
+        }
+
+        return cached;
+        //return connectData(type);
     };
 }
