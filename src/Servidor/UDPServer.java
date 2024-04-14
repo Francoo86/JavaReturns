@@ -3,6 +3,8 @@ package Servidor;
 import Servidor.services.DictionaryService;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
+import dao.Word;
+import dao.WordDefinition;
 import shd_utils.ParseHelpers;
 
 import java.io.IOException;
@@ -17,6 +19,13 @@ public class UDPServer {
     private DatagramSocket socket;
     private DictionaryService dictService;
     public static final int MAX_BYTES = 1000;
+    //inmutable ahh array.
+    private static Services[] services = Services.values();
+
+    private Services getService(String num) {
+        int castNum = Integer.parseInt(num);
+        return services[castNum];
+    }
 
     public UDPServer(String url, int port) {
         try {
@@ -35,6 +44,37 @@ public class UDPServer {
         };
     }
 
+    //TODO: Move this functionality.
+    public String formatLookupWordResp(String word){
+        Word tempWord = dictService.lookupWord(word);
+        if(tempWord == null || tempWord.getDefinitions().isEmpty()) {
+            return "NO_DEF";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        List<WordDefinition> defs = tempWord.getDefinitions();
+
+        for(int i = 0; i < defs.size(); i++) {
+            WordDefinition def = defs.get(i);
+            String fullString = String.format("%s. %s\n", i + 1, def.getDef());
+            sb.append(fullString);
+        }
+
+        return sb.toString();
+    }
+
+    public String handleServices(List<String> contents) {
+        Services serv = getService(contents.get(0));
+        String response = "";
+        switch (serv) {
+            case SEARCH_WORD:
+                response = formatLookupWordResp(contents.get(1));
+                return response;
+        }
+
+        return "NOT_IMPLEMENTED";
+    }
+
     public void listenClients() {
         System.out.println("SERVER: Listening to clients.");
         try {
@@ -47,12 +87,16 @@ public class UDPServer {
                 //Mensaje recibido.
                 String receivedMessage = new String(req.getData());
                 List<String> contents = ParseHelpers.parseContents(receivedMessage);
+                String serviceResponse = handleServices(contents);
 
-                
+                System.out.println("Data: " + serviceResponse);
+                System.out.println("Response size: " + serviceResponse.length());
+                DatagramPacket resp = new DatagramPacket(serviceResponse.getBytes(), serviceResponse.length(), req.getAddress(), req.getPort());
+                socket.send(resp);
 
-                System.out.println("Mensaje recibido: " + new String(req.getData()));
-                DatagramPacket respuesta = new DatagramPacket(req.getData(), req.getLength(), req.getAddress(), req.getPort());
-                socket.send(respuesta);
+                //System.out.println("Mensaje recibido: " + new String(req.getData()));
+                //DatagramPacket respuesta = new DatagramPacket(req.getData(), req.getLength(), req.getAddress(), req.getPort());
+                //socket.send(respuesta);
             }
         }
         catch (IOException e) {
