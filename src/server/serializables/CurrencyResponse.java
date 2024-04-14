@@ -1,4 +1,4 @@
-package Servidor.serializables;
+package server.serializables;
 
 import java.util.HashMap;
 

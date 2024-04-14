@@ -1,4 +1,4 @@
-package Servidor.services;
+package server.services;
 
 import com.j256.ormlite.support.ConnectionSource;
 import dao.Word;

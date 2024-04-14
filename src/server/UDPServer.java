@@ -1,7 +1,7 @@
-package Servidor;
+package server;
 
-import Servidor.services.CurrencyService;
-import Servidor.services.DictionaryService;
+import server.services.CurrencyService;
+import server.services.DictionaryService;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import dao.Word;

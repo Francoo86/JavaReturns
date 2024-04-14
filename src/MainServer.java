@@ -1,4 +1,4 @@
-import Servidor.UDPServer;
+import server.UDPServer;
 
 public class MainServer {
     private static final int PORT = 6789;

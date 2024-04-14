@@ -1,6 +1,6 @@
-package Servidor.services;
+package server.services;
 
-import Servidor.serializables.CurrencyResponse;
+import server.serializables.CurrencyResponse;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -34,7 +34,7 @@ public class ExchangeAPIClient {
             try(BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()))){
                 StringBuilder sb = new StringBuilder();
                 String line;
-                
+
                 while ((line = br.readLine()) != null) {
                     sb.append(line);
                 }

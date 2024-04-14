@@ -1,6 +1,6 @@
 package genericmenu;
 
-import Servidor.services.CurrencyService;
+import server.services.CurrencyService;
 import cliente.UDPClient;
 import shd_utils.ParseHelpers;
 import shd_utils.Services;

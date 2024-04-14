@@ -1,6 +1,6 @@
-package Servidor.services;
+package server.services;
 
-import Servidor.serializables.CurrencyResponse;
+import server.serializables.CurrencyResponse;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -67,15 +67,6 @@ public class CurrencyService {
     public CurrencyService(){
         //readCurrencyFile();
         initializeService();
-    }
-
-    public double convertToCLP(String type, Double amount){
-        Double mul = currencies.get(type);
-        if(mul == null){
-            return -1d;
-        }
-
-        return amount * mul;
     }
 
     public double convertExchange(String source, String target, double sourceMul){
