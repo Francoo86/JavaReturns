@@ -6,7 +6,6 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
-import java.io.IOError;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collection;
@@ -41,7 +40,7 @@ public class WordDAO implements IEntityDAO<Word, String> {
         catch (SQLException e) {
             System.out.printf("WordDAO: Can't add word because: %s", e);
         }
-    };
+    }
 
 
     public void add(String word) {
@@ -54,8 +53,7 @@ public class WordDAO implements IEntityDAO<Word, String> {
     @Override
     public List findAll() {
         try {
-            List<Word> allWords = wordManager.queryForAll();
-            return allWords;
+            return wordManager.queryForAll();
         }
         catch (SQLException e) {
             System.out.printf("Can't get all elements of WordDAO because: %s", e);
@@ -67,15 +65,14 @@ public class WordDAO implements IEntityDAO<Word, String> {
     @Override
     public Word findUnique(String wordName) {
         try {
-            Word tempWord = queryBuilder.where().eq("wordName", wordName).queryForFirst();
-            return tempWord;
+            return queryBuilder.where().eq("wordName", wordName).queryForFirst();
         }
         catch(SQLException e) {
             System.out.printf("WordDAO: Can't find element %s because %s", wordName, e);
         }
 
         return null;
-    };
+    }
 
     //TODO: Rework this crazy ahh method.
     private Word findAndCheck(String wordName){

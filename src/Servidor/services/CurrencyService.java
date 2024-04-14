@@ -22,11 +22,11 @@ public class CurrencyService {
 
             while(reader.hasNextLine()){
                 String data = reader.nextLine();
-                String[] splitted = data.split(":");
-                if(splitted.length < 2) continue;
+                String[] split = data.split(":");
+                if(split.length < 2) continue;
 
-                String type = splitted[0].trim();
-                Double currencyMul = Double.parseDouble(splitted[1].trim());
+                String type = split[0].trim();
+                Double currencyMul = Double.parseDouble(split[1].trim());
 
                 currencies.put(type, currencyMul);
             }
@@ -36,6 +36,9 @@ public class CurrencyService {
         }
         catch (FileNotFoundException e) {
             System.out.println("Currencies file wasn't found.");
+        }
+        catch (NullPointerException e) {
+            System.out.println("NullPointerException found: " + e.getMessage());
         }
     }
 

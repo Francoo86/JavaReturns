@@ -2,12 +2,10 @@ package dao;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
-import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
-import java.io.IOError;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collection;
@@ -43,15 +41,14 @@ public class MeaningDAO implements IEntityDAO<WordDefinition, Integer> {
             System.out.printf("MeaningDAO: Can't add definition for %s because %s", entity.getWord().getWordName(), entity);
         }
         catch (IOException e) {
-            System.out.printf("MeaningDAO: Needs to have a word to be added.");
+            System.out.print("MeaningDAO: Needs to have a word to be added.");
         }
     }
 
     @Override
-    public List findAll() {
+    public List<WordDefinition> findAll() {
         try {
-            List<WordDefinition> allDefs = meaningManager.queryForAll();
-            return allDefs;
+            return meaningManager.queryForAll();
         }
         catch (SQLException e) {
             System.out.printf("Can't get all elements of MeaningDAO because: %s", e);
@@ -64,11 +61,10 @@ public class MeaningDAO implements IEntityDAO<WordDefinition, Integer> {
     public WordDefinition findUnique(Integer criteria) {
         //return null;
         try {
-            WordDefinition wordDef = meaningManager.queryForId(Integer.toString(criteria));
-            return wordDef;
+            return meaningManager.queryForId(Integer.toString(criteria));
         }
         catch(SQLException e) {
-            System.out.printf("MeaningDAO: Can't find word by ID (%s) because: ", criteria, e);
+            System.out.printf("MeaningDAO: Can't find word by ID (%s) because: %s", criteria, e.getMessage());
         }
         return null;
     }
@@ -79,7 +75,7 @@ public class MeaningDAO implements IEntityDAO<WordDefinition, Integer> {
             Collection<WordDefinition> currDef = queryBuilder.where().like("def", "'%"+criteria+"%'").query();
             return currDef.stream().toList();
         }catch (SQLException e) {
-            System.out.printf("MeaningDAO: We can't search similar definitions holding %s because: %e", criteria, e);
+            System.out.printf("MeaningDAO: We can't search similar definitions holding %s because: %s", criteria, e.getMessage());
         }
 
         return null;
