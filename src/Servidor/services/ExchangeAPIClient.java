@@ -9,13 +9,14 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 
 //Limit this guy to ExchangeRATE
 public class ExchangeAPIClient {
     public static String API_URL = "https://api.exchangerate-api.com/v4/latest/";
     private static int SUCCESS_CODE = 200;
-    private Map<String, CurrencyResponse> cachedResponses;
+    private Map<String, CurrencyResponse> cachedResponses = new HashMap<>();
 
     private CurrencyResponse connectData(String type){
         type = type.toLowerCase();
