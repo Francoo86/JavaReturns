@@ -75,7 +75,7 @@ public class UDPServer {
 
     public String formatCurrencyResponse(List<String> contents){
         //Mostrar monedas disponibles al usuario.
-        if (contents.get(1) == "SHOW_AVAILABLE"){
+        if (contents.get(0).equals(currencyService.AVAILABLE_COMMAND)){
             List<String> currencies = currencyService.getAvailableCurrencies();
             StringBuilder sb = new StringBuilder();
 
