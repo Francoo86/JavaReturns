@@ -13,6 +13,7 @@ import java.net.URL;
 //Limit this guy to ExchangeRATE
 public class ExchangeAPIClient {
     public static String API_URL = "https://api.exchangerate-api.com/v4/latest/";
+    private static int SUCCESS_CODE = 200;
 
     private CurrencyResponse connectData(String type){
         try {
@@ -21,7 +22,7 @@ public class ExchangeAPIClient {
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
 
-            if (conn.getResponseCode() != 200) {
+            if (conn.getResponseCode() != SUCCESS_CODE) {
                 throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
             };
 
