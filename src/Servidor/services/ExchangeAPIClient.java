@@ -34,10 +34,11 @@ public class ExchangeAPIClient {
             try(BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()))){
                 StringBuilder sb = new StringBuilder();
                 String line;
+                
                 while ((line = br.readLine()) != null) {
                     sb.append(line);
                 }
-                br.close();
+
                 String output = sb.toString();
                 CurrencyResponse data = new Gson().fromJson(output, CurrencyResponse.class);
                 cachedResponses.put(type.toUpperCase(), data);
