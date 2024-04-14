@@ -1,5 +1,7 @@
 package Servidor.services;
 
+import Servidor.serializables.CurrencyResponse;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
@@ -8,9 +10,29 @@ import java.util.*;
 //TODO: Implement.
 public class CurrencyService {
     public static String AVAILABLE_COMMAND = "SHOW_AVAILABLE";
+    private static String BASE_CURRENCY = "USD";
+
+    private ExchangeAPIClient apiClient;
 
     private HashMap<String, Double> currencies;
-    private List<String> availableCurrencies;
+    private Set<String> availableCurrencies;
+    private void initializeService() {
+        apiClient = new ExchangeAPIClient();
+
+        CurrencyResponse data = apiClient.getCurrencyData(BASE_CURRENCY);
+
+        if(data == null){
+            System.out.println("[EXCHANGE CLIENT] Service not available, fallback to the CLP currency file.");
+            readCurrencyFile();
+            return;
+        }
+
+        System.out.println("Currency service was setup using the ExchangeRate API!");
+
+        availableCurrencies = data.getRates().keySet();
+        //Set<String> currencies = data.getRates().keySet();
+
+    }
     private void readCurrencyFile() {
         currencies = new HashMap<>();
 
@@ -31,8 +53,8 @@ public class CurrencyService {
                 currencies.put(type, currencyMul);
             }
 
-            availableCurrencies = new ArrayList<>(currencies.keySet());
-            System.out.println("Currency service was setup!");
+            availableCurrencies = currencies.keySet();
+            System.out.println("Currency service was setup by using the file!");
         }
         catch (FileNotFoundException e) {
             System.out.println("Currencies file wasn't found.");
@@ -43,7 +65,8 @@ public class CurrencyService {
     }
 
     public CurrencyService(){
-        readCurrencyFile();
+        //readCurrencyFile();
+        initializeService();
     }
 
     public double convertToCLP(String type, Double amount){
@@ -55,7 +78,11 @@ public class CurrencyService {
         return amount * mul;
     }
 
-    public List<String> getAvailableCurrencies(){
+    public Set<String> getAvailableCurrencies(){
         return availableCurrencies;
+    }
+
+    public boolean isValidCurrency(String type) {
+        return availableCurrencies.contains(type);
     }
 }

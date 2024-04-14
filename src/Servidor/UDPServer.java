@@ -15,6 +15,7 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Set;
 
 public class UDPServer {
     private DatagramSocket socket;
@@ -76,15 +77,19 @@ public class UDPServer {
     public String formatCurrencyResponse(List<String> contents){
         //Mostrar monedas disponibles al usuario.
         if (contents.get(0).equals(CurrencyService.AVAILABLE_COMMAND)){
-            List<String> currencies = currencyService.getAvailableCurrencies();
+            Set<String> currencies = currencyService.getAvailableCurrencies();
             StringBuilder sb = new StringBuilder();
 
             sb.append("Monedas disponibles:\n[");
-            for(int i = 0; i < currencies.size(); i++){
-                sb.append(currencies.get(i));
+
+            int i = 0;
+
+            for(String currency : currencies){
+                sb.append(currency);
                 if (i < currencies.size() - 1) {
                     sb.append(", ");
                 }
+                i++;
             }
 
             sb.append("]\n");
