@@ -11,6 +11,7 @@ public class MainClient {
         menu.runMenu();
     }
 
+    /*
     private static void testPersonDao() {
         String dbUrl = "jdbc:sqlite:sample.db";
         try {
@@ -22,5 +23,5 @@ public class MainClient {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 }

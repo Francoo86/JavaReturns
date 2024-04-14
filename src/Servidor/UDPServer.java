@@ -21,6 +21,8 @@ public class UDPServer {
             ConnectionSource source = new JdbcConnectionSource(url);
 
             dictService = new DictionaryService(source);
+
+            System.out.printf("Setting up server at port %s.\n", port);
         }
         catch (SocketException e) {
             System.out.println("[SERVER] Socket: " + e.getMessage());
@@ -31,6 +33,7 @@ public class UDPServer {
     }
 
     public void listenClients() {
+        System.out.println("SERVER: Listening to clients.");
         try {
             while (true) {
                 byte[] buffer = new byte[MAX_BYTES];

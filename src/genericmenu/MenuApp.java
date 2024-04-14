@@ -35,8 +35,8 @@ public class MenuApp {
             return;
         }
 
-        //String content = ParseHelpers.createContents(Services.SEARCH_WORD, word);
-        //client.sendMessage(content);
+        String content = ParseHelpers.createContents(Services.SEARCH_WORD, word);
+        client.sendMessage(content);
     }
 
     private void prepareWordAdding() {
@@ -50,8 +50,8 @@ public class MenuApp {
             return;
         }
 
-        //String content = ParseHelpers.createContents(Services.ADD_MEANING, word, meaning);
-        //client.sendMessage(content);
+        String content = ParseHelpers.createContents(Services.ADD_MEANING, word, meaning);
+        client.sendMessage(content);
     }
 
     //you can't return onto while true without breaking it.
