@@ -2,17 +2,22 @@ package Servidor.services;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.URL;
 import java.util.*;
 
 //TODO: Implement.
 public class CurrencyService {
+    public static String AVAILABLE_COMMAND = "SHOW_AVAILABLE";
+
     private HashMap<String, Double> currencies;
     private List<String> availableCurrencies;
     private void readCurrencyFile() {
         currencies = new HashMap<>();
 
         try{
-            File fileObj = new File("CLPCurrencies.txt");
+            URL url = getClass().getResource("CLPCurrencies");
+            File fileObj = new File(url.getPath());
+
             Scanner reader = new Scanner(fileObj);
 
             while(reader.hasNextLine()){
@@ -27,6 +32,7 @@ public class CurrencyService {
             }
 
             availableCurrencies = new ArrayList<>(currencies.keySet());
+            System.out.println("Currency service was setup!");
         }
         catch (FileNotFoundException e) {
             System.out.println("Currencies file wasn't found.");
