@@ -5,6 +5,7 @@ import cliente.UDPClient;
 import shd_utils.ParseHelpers;
 import shd_utils.Services;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MenuApp {
@@ -136,9 +137,15 @@ public class MenuApp {
         //crear el scanner.
         while(true) {
             displayOptions();
-            if (doOptions()){
-                sc.close();
-                break;
+            try{
+                if (doOptions()){
+                    sc.close();
+                    break;
+                }
+            }
+            catch (InputMismatchException e) {
+                System.out.println("Esa entrada no es válida.");
+                sc.next();
             }
         }
     }

@@ -45,11 +45,8 @@ public class ExchangeAPIClient {
                 return data;
             }
         } catch (MalformedURLException e) {
-
             e.printStackTrace();
-
         } catch (IOException e) {
-
             e.printStackTrace();
         }
 
