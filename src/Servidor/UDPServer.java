@@ -96,15 +96,22 @@ public class UDPServer {
             return sb.toString();
         }
 
-        String type = contents.get(0).toUpperCase();
-        double amount = Double.parseDouble(contents.get(1));
-        double converted = currencyService.convertToCLP(type, amount);
+        String source = contents.get(0).toUpperCase();
+        String target = contents.get(1).toUpperCase();
 
-        if(converted == -1d) {
-            return String.format("De momento la moneda %s no se encuentra disponible.", type);
+        if(!currencyService.isValidCurrency(source) || !currencyService.isValidCurrency(target)){
+            return String.format("Una o 2 de las monedas solicitadas no es valida.");
         }
 
-        return String.format("%s en %s en CLP equivale a $%s", amount, type, converted);
+        double amount = Double.parseDouble(contents.get(2));
+        double converted = currencyService.convertExchange(source, target, amount);
+
+        //this should never happen!!!!!
+        if(converted == -1d) {
+            return String.format("No se pudo realizar la conversión.");
+        }
+
+        return String.format("%s en %s equivale a %s en %s ", amount, source, converted, target);
     }
 
     public String handleServices(List<String> contents) {
