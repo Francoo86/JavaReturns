@@ -1,5 +1,6 @@
 package Servidor;
 
+import Servidor.services.CurrencyService;
 import Servidor.services.DictionaryService;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
@@ -17,7 +18,10 @@ import java.util.List;
 
 public class UDPServer {
     private DatagramSocket socket;
+    //setup services.
     private DictionaryService dictService;
+    private CurrencyService currencyService;
+
     public static final int MAX_BYTES = 1000;
     //inmutable ahh array.
     private static Services[] services = Services.values();
@@ -33,6 +37,7 @@ public class UDPServer {
             ConnectionSource source = new JdbcConnectionSource(url);
 
             dictService = new DictionaryService(source);
+            currencyService = new CurrencyService();
 
             System.out.printf("Setting up server at port %s.\n", port);
         }
@@ -68,16 +73,49 @@ public class UDPServer {
         return String.format("El significado de %s%s fue añadido.", word, check == true ? "" : " no");
     }
 
+    public String formatCurrencyResponse(List<String> contents){
+        //Mostrar monedas disponibles al usuario.
+        if (contents.get(1) == "SHOW_AVAILABLE"){
+            List<String> currencies = currencyService.getAvailableCurrencies();
+            StringBuilder sb = new StringBuilder();
+
+            sb.append("Monedas disponibles:\n[");
+            for(int i = 0; i < currencies.size(); i++){
+                sb.append(currencies.get(i));
+                if (i < contents.size() - 1) {
+                    sb.append(", ");
+                }
+            }
+
+            sb.append("]\n");
+            return sb.toString();
+        };
+
+        String type = contents.get(0).toUpperCase();
+        double amount = Double.parseDouble(contents.get(1));
+        double converted = currencyService.convertToCLP(type, amount);
+
+        if(converted == -1d) {
+            return String.format("De momento la moneda %s no se encuentra disponible.", type);
+        }
+
+        return String.format("%s en %s en CLP equivale a $%s", amount, type, converted);
+    }
+
     public String handleServices(List<String> contents) {
         Services serv = getService(contents.get(0));
+
+        contents.remove(0);
 
         String response = "";
         switch (serv) {
             case SEARCH_WORD:
-                response = formatLookupWordResp(contents.get(1));
+                response = formatLookupWordResp(contents.get(0));
                 return response;
             case ADD_MEANING:
-                return formatAddDictionary(contents.get(1), contents.get(2));
+                return formatAddDictionary(contents.get(0), contents.get(1));
+            case CHANGE_CURRENCY:
+                return formatCurrencyResponse(contents);
         }
 
         return "NOT_IMPLEMENTED";
