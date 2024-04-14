@@ -8,12 +8,14 @@ import java.util.Scanner;
 public class MenuApp {
     private static final Services[] SERVICES = Services.values();
     private static final int STOP_CODE = SERVICES.length;
+    private Scanner sc;
 
     private UDPClient client;
 
     //ONLY FOR TESTING PURPOSES.
     public MenuApp() {
         client = new UDPClient();
+        sc = new Scanner(System.in);
     }
 
     private void displayOptions() {
@@ -24,11 +26,15 @@ public class MenuApp {
         System.out.println("4. Cerrar programa.");
     }
 
+    private void searchWord(String word) {
+
+    }
+
     //you can't return onto while true without breaking it.
     //returns true to stop.
-    private boolean doOptions(Scanner sc) {
+    private boolean doOptions() {
         int input = sc.nextInt();
-        System.out.printf("The selected input was: %s\n", input);
+        // System.out.printf("The selected input was: %s\n", input);
         if(input <= 0 || input > SERVICES.length) {
             return false;
         }
@@ -49,10 +55,9 @@ public class MenuApp {
 
     public void runMenu() {
         //crear el scanner.
-        Scanner sc = new Scanner(System.in);
         while(true) {
             displayOptions();
-            if (doOptions(sc)){
+            if (doOptions()){
                 sc.close();
                 break;
             };
