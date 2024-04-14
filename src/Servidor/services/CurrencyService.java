@@ -78,6 +78,22 @@ public class CurrencyService {
         return amount * mul;
     }
 
+    public double convertExchange(String source, String target, double sourceMul){
+        //avoid dumb calculations.
+        if(source == target){
+            return 1d;
+        }
+
+        CurrencyResponse data = apiClient.getCurrencyData(source);
+
+        if(data == null) {
+            return -1d;
+        }
+
+        Map<String, Double> rates = data.getRates();
+        return sourceMul * rates.get(target);
+    }
+
     public Set<String> getAvailableCurrencies(){
         return availableCurrencies;
     }

@@ -39,7 +39,7 @@ public class ExchangeAPIClient {
                 br.close();
                 String output = sb.toString();
                 CurrencyResponse data = new Gson().fromJson(output, CurrencyResponse.class);
-                cachedResponses.put(type, data);
+                cachedResponses.put(type.toUpperCase(), data);
 
                 return data;
             }
