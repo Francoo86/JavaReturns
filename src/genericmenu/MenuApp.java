@@ -36,7 +36,16 @@ public class MenuApp {
         }
 
         String content = ParseHelpers.createContents(Services.SEARCH_WORD, word);
-        client.sendMessage(content);
+        String resp = client.sendMessage(content);
+
+        if(resp == "NO_DEF") {
+            System.out.printf("La palabra %s no posee significados.", word);
+            return;
+        }
+
+        System.out.printf("Definiciones de %s\n%s", word, resp);
+        System.out.println();
+        //System.out.printf("Y los sockets? %s\n", resp);
     }
 
     private void prepareWordAdding() {
