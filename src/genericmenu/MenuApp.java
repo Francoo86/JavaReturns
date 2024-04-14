@@ -1,6 +1,7 @@
 package genericmenu;
 
 import Servidor.UDPServer.Services;
+import Servidor.services.CurrencyService;
 import cliente.UDPClient;
 import shd_utils.ParseHelpers;
 
@@ -8,10 +9,9 @@ import java.util.Scanner;
 
 public class MenuApp {
     private static final Services[] SERVICES = Services.values();
-    private static final int STOP_CODE = SERVICES.length;
-    private Scanner sc;
+    private final Scanner sc;
 
-    private UDPClient client;
+    private final UDPClient client;
     private boolean hasDownloadedCurrencies = false;
 
     //ONLY FOR TESTING PURPOSES.
@@ -40,7 +40,7 @@ public class MenuApp {
         String content = ParseHelpers.createContents(Services.SEARCH_WORD, word);
         String resp = client.sendMessage(content);
 
-        if(resp == "NO_DEF") {
+        if(resp.equals("NO_DEF")) {
             System.out.printf("La palabra %s no posee significados.", word);
             return;
         }
@@ -68,11 +68,11 @@ public class MenuApp {
     }
 
     private void prepareCurrencies() {
-        String content = "";
+        String content;
 
         //revisar las monedas.
         if (!hasDownloadedCurrencies) {
-            content = ParseHelpers.createContents(Services.CHANGE_CURRENCY, "SHOW_AVAILABLE");
+            content = ParseHelpers.createContents(Services.CHANGE_CURRENCY, CurrencyService.AVAILABLE_COMMAND);
             String currencies = client.sendMessage(content);
             System.out.println(currencies);
             hasDownloadedCurrencies = true;
@@ -119,8 +119,8 @@ public class MenuApp {
                 prepareWordAdding();
                 break;
             case CHANGE_CURRENCY:
+                prepareCurrencies();
                 break;
-                //TODO: Implement.
             //HACK: Add this for avoiding thinking too much.
             case NULL_SERVICE:
                 System.out.println("Saliendo del menu...");
@@ -137,7 +137,7 @@ public class MenuApp {
             if (doOptions()){
                 sc.close();
                 break;
-            };
+            }
         }
     }
 }
