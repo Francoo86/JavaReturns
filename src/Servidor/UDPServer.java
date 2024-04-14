@@ -3,12 +3,15 @@ package Servidor;
 import Servidor.services.DictionaryService;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
+import shd_utils.ParseHelpers;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.List;
 
 public class UDPServer {
     private DatagramSocket socket;
@@ -43,7 +46,9 @@ public class UDPServer {
 
                 //Mensaje recibido.
                 String receivedMessage = new String(req.getData());
+                List<String> contents = ParseHelpers.parseContents(receivedMessage);
 
+                
 
                 System.out.println("Mensaje recibido: " + new String(req.getData()));
                 DatagramPacket respuesta = new DatagramPacket(req.getData(), req.getLength(), req.getAddress(), req.getPort());

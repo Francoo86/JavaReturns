@@ -31,7 +31,7 @@ public class ParseHelpers {
     };
 
     //this is for the server...
-    public static Collection<String> parseContents(String content){
+    public static List<String> parseContents(String content){
         // Define a regular expression pattern to match the integer and the list of strings
         // Regular expression pattern to match the number and strings inside brackets
         Pattern pattern = Pattern.compile("(\\d+):\\[(.*?)\\]");
