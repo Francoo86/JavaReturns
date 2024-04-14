@@ -28,6 +28,7 @@ public class MenuApp {
     }
 
     private void prepareWordSearch() {
+        System.out.println("Introduzca la palabra a buscar:");
         String word = sc.next().trim();
 
         if(!ParseHelpers.isValidWord(word)) {
@@ -60,7 +61,9 @@ public class MenuApp {
         }
 
         String content = ParseHelpers.createContents(Services.ADD_MEANING, word, meaning);
-        client.sendMessage(content);
+        String resp = client.sendMessage(content);
+
+        System.out.println(resp);
     }
 
     //you can't return onto while true without breaking it.
