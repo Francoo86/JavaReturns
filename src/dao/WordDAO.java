@@ -43,6 +43,14 @@ public class WordDAO implements IEntityDAO<Word, String> {
         }
     };
 
+
+    public void add(String word) {
+        Word temp = new Word();
+        temp.setWordName(word);
+
+        add(temp);
+    }
+
     @Override
     public List findAll() {
         try {
@@ -69,11 +77,23 @@ public class WordDAO implements IEntityDAO<Word, String> {
         return null;
     };
 
-    public void addMeaning(String currentWord, String meaning) {
+    //TODO: Rework this crazy ahh method.
+    private Word findAndCheck(String wordName){
+        Word wordObj = findUnique(wordName);
+        if(wordObj == null) {
+            System.out.printf("Adding %s word to DB.", wordName);
+            add(wordName);
+            return findUnique(wordName);
+        }
+
+        return wordObj;
+    }
+
+    public boolean addMeaning(String currentWord, String meaning) {
         try {
-            Word wordObj = findUnique(currentWord);
+            Word wordObj = findAndCheck(currentWord);
             if(wordObj == null) {
-                return;
+                return false;
             }
 
             Collection<WordDefinition> actualDefs = wordObj.getDefinitions();
@@ -86,9 +106,13 @@ public class WordDAO implements IEntityDAO<Word, String> {
             def.setWord(wordObj);
             def.setDef(meaning);
             defManager.add(def);
+
+            return true;
         }catch (IOException e) {
             System.out.println(e);
         }
+
+        return false;
     }
 
     public Collection<WordDefinition> getMeanings(String wordName) {
