@@ -15,7 +15,7 @@ public class Word {
     @DatabaseField(unique = true)
     public String wordName;
     @ForeignCollectionField
-    List<WordDefinition> definitions;
+    Collection<WordDefinition> definitions;
 
     //empty constructor for this guy
     public Word(){}
@@ -29,7 +29,7 @@ public class Word {
     }
 
     public List<WordDefinition> getDefinitions() {
-        return definitions;
+        return definitions.stream().toList();
     }
 
     public void setWordName(String wordName) {
