@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Helpers {
+public class ParseHelpers {
+    public static final int REQUIRED_WORD_SIZE = 3;
     public static String clearWord(String word) {
         return word.trim();
     }
@@ -55,5 +56,14 @@ public class Helpers {
         }
 
         return parsedContents;
+    }
+
+    public static boolean isValidWord(String word) {
+        if(word.length() < REQUIRED_WORD_SIZE) {
+            System.out.printf("Las palabras deberían tener al menos %s caracteres de longitud.", REQUIRED_WORD_SIZE);
+            return false;
+        }
+
+        return true;
     }
 }
