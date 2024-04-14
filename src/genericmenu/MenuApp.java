@@ -78,10 +78,12 @@ public class MenuApp {
             hasDownloadedCurrencies = true;
         }
 
-        System.out.println("Introduzca la moneda (las mostradas en pantalla):");
-        System.out.println("Para ser convertida a CLP.");
-        String type = sc.nextLine();
-        System.out.printf("Introduzca el monto de esa moneda (Moneda escogida: %s)\n", type);
+        System.out.println("Introduzca la moneda base (las mostradas en pantalla):");
+        String source = sc.nextLine();
+        System.out.println("Introduzca la moneda para la conversión: ");
+        String target = sc.nextLine();
+        System.out.printf("Introduzca el monto de la moneda base (Moneda escogida: %s)\n", source);
+
         int amount = sc.nextInt();
 
         if(amount < 0){
@@ -89,7 +91,7 @@ public class MenuApp {
             return;
         }
 
-        content = ParseHelpers.createContents(Services.CHANGE_CURRENCY, type, Integer.toString(amount));
+        content = ParseHelpers.createContents(Services.CHANGE_CURRENCY, source, target, Integer.toString(amount));
         String resp = client.sendMessage(content);
 
         System.out.println(resp);
