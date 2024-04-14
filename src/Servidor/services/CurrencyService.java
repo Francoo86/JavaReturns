@@ -2,12 +2,12 @@ package Servidor.services;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 
 //TODO: Implement.
 public class CurrencyService {
     private HashMap<String, Double> currencies;
+    private List<String> availableCurrencies;
     private void readCurrencyFile() {
         currencies = new HashMap<>();
 
@@ -25,6 +25,8 @@ public class CurrencyService {
 
                 currencies.put(type, currencyMul);
             }
+
+            availableCurrencies = new ArrayList<>(currencies.keySet());
         }
         catch (FileNotFoundException e) {
             System.out.println("Currencies file wasn't found.");
@@ -42,5 +44,9 @@ public class CurrencyService {
         }
 
         return amount * mul;
+    }
+
+    public List<String> getAvailableCurrencies(){
+        return availableCurrencies;
     }
 }
