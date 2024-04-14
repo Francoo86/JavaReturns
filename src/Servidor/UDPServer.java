@@ -7,13 +7,13 @@ import com.j256.ormlite.support.ConnectionSource;
 import dao.Word;
 import dao.WordDefinition;
 import shd_utils.ParseHelpers;
+import shd_utils.Services;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.sql.SQLException;
-import java.util.Collection;
 import java.util.List;
 
 public class UDPServer {
@@ -24,7 +24,7 @@ public class UDPServer {
 
     public static final int MAX_BYTES = 1000;
     //inmutable ahh array.
-    private static Services[] services = Services.values();
+    private static final Services[] services = Services.values();
 
     private Services getService(String num) {
         int castNum = Integer.parseInt(num);
@@ -46,7 +46,7 @@ public class UDPServer {
         }
         catch (SQLException e) {
             System.out.println("[SERVER] SQL: " + e.getMessage());
-        };
+        }
     }
 
     //TODO: Move this functionality.
@@ -70,12 +70,12 @@ public class UDPServer {
 
     public String formatAddDictionary(String word, String meaning) {
         boolean check = dictService.addDefinition(word, meaning);
-        return String.format("El significado de %s%s fue añadido.", word, check == true ? "" : " no");
+        return String.format("El significado de %s%s fue añadido.", word, check ? "" : " no");
     }
 
     public String formatCurrencyResponse(List<String> contents){
         //Mostrar monedas disponibles al usuario.
-        if (contents.get(0).equals(currencyService.AVAILABLE_COMMAND)){
+        if (contents.get(0).equals(CurrencyService.AVAILABLE_COMMAND)){
             List<String> currencies = currencyService.getAvailableCurrencies();
             StringBuilder sb = new StringBuilder();
 
@@ -89,7 +89,7 @@ public class UDPServer {
 
             sb.append("]\n");
             return sb.toString();
-        };
+        }
 
         String type = contents.get(0).toUpperCase();
         double amount = Double.parseDouble(contents.get(1));
@@ -107,18 +107,13 @@ public class UDPServer {
 
         contents.remove(0);
 
-        String response = "";
-        switch (serv) {
-            case SEARCH_WORD:
-                response = formatLookupWordResp(contents.get(0));
-                return response;
-            case ADD_MEANING:
-                return formatAddDictionary(contents.get(0), contents.get(1));
-            case CHANGE_CURRENCY:
-                return formatCurrencyResponse(contents);
-        }
+        return switch (serv) {
+            case SEARCH_WORD -> formatLookupWordResp(contents.get(0));
+            case ADD_MEANING -> formatAddDictionary(contents.get(0), contents.get(1));
+            case CHANGE_CURRENCY -> formatCurrencyResponse(contents);
+            default -> "NOT_IMPLEMENTED";
+        };
 
-        return "NOT_IMPLEMENTED";
     }
 
     public void listenClients() {
@@ -139,21 +134,10 @@ public class UDPServer {
                 System.out.println("Response size: " + serviceResponse.length());
                 DatagramPacket resp = new DatagramPacket(serviceResponse.getBytes(), serviceResponse.length(), req.getAddress(), req.getPort());
                 socket.send(resp);
-
-                //System.out.println("Mensaje recibido: " + new String(req.getData()));
-                //DatagramPacket respuesta = new DatagramPacket(req.getData(), req.getLength(), req.getAddress(), req.getPort());
-                //socket.send(respuesta);
             }
         }
         catch (IOException e) {
             System.out.println("[SERVER] Socket (IO): " + e.getMessage());
         }
-    }
-
-    public enum Services {
-        SEARCH_WORD,
-        ADD_MEANING,
-        CHANGE_CURRENCY,
-        NULL_SERVICE,
     }
 }

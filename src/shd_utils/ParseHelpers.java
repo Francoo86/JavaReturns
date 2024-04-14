@@ -1,22 +1,17 @@
 package shd_utils;
 
-import Servidor.UDPServer;
-
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ParseHelpers {
     public static final int REQUIRED_WORD_SIZE = 3;
-    public static String clearWord(String word) {
-        return word.trim();
-    }
 
-    public static String createContents(UDPServer.Services serv, String ... contents){
+    public static String createContents(Services serv, String ... contents){
         StringBuilder sb = new StringBuilder();
-        sb.append(serv.ordinal() + ":[");
+        sb.append(serv.ordinal()).append(":[");
 
         for(int i = 0; i < contents.length; i++) {
             String content = contents[i];
@@ -28,7 +23,7 @@ public class ParseHelpers {
 
         sb.append("]");
         return sb.toString();
-    };
+    }
 
     //this is for the server...
     public static List<String> parseContents(String content){
@@ -51,9 +46,7 @@ public class ParseHelpers {
 
         // Extracting the strings inside brackets
         String[] strings = matcher.group(2).split(",\\s*");
-        for (String str : strings) {
-            parsedContents.add(str);
-        }
+        Collections.addAll(parsedContents, strings);
 
         return parsedContents;
     }
