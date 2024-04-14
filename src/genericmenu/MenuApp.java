@@ -12,6 +12,7 @@ public class MenuApp {
     private Scanner sc;
 
     private UDPClient client;
+    private boolean hasDownloadedCurrencies = false;
 
     //ONLY FOR TESTING PURPOSES.
     public MenuApp() {
@@ -66,6 +67,34 @@ public class MenuApp {
         System.out.println(resp);
     }
 
+    private void prepareCurrencies() {
+        String content = "";
+
+        //revisar las monedas.
+        if (!hasDownloadedCurrencies) {
+            content = ParseHelpers.createContents(Services.CHANGE_CURRENCY, "SHOW_AVAILABLE");
+            String currencies = client.sendMessage(content);
+            System.out.println(currencies);
+            hasDownloadedCurrencies = true;
+        }
+
+        System.out.println("Introduzca la moneda (las mostradas en pantalla):");
+        System.out.println("Para ser convertida a CLP.");
+        String type = sc.nextLine();
+        System.out.printf("Introduzca el monto de esa moneda (Moneda escogida: %s)\n", type);
+        int amount = sc.nextInt();
+
+        if(amount < 0){
+            System.out.println("El monto no puede ser menor a 0.");
+            return;
+        }
+
+        content = ParseHelpers.createContents(Services.CHANGE_CURRENCY, type, Integer.toString(amount));
+        String resp = client.sendMessage(content);
+
+        System.out.println(resp);
+    }
+
     //you can't return onto while true without breaking it.
     //returns true to stop.
     private boolean doOptions() {
@@ -110,11 +139,5 @@ public class MenuApp {
                 break;
             };
         }
-    }
-
-    public static enum MenuStatus {
-        NONE,
-        STOP,
-        PROCEED,
     }
 }
