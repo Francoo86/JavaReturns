@@ -43,7 +43,7 @@ public class UDPServer {
             System.out.printf("Setting up server at port %s.\n", port);
         }
         catch (SocketException e) {
-            System.out.println("[SERVER] Socket: " + e.getMessage());
+            System.out.printf("[SERVER] Socket (at port %s): %s", port, e.getMessage());
         }
         catch (SQLException e) {
             System.out.println("[SERVER] SQL: " + e.getMessage());
@@ -129,6 +129,11 @@ public class UDPServer {
     }
 
     public void listenClients() {
+        if (socket == null) {
+            System.out.println("[SERVER] Socket not initialized properly, ending program...");
+            return;
+        }
+
         System.out.println("SERVER: Listening to clients.");
         try {
             while (true) {
