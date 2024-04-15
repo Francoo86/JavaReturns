@@ -52,7 +52,7 @@ public class UDPServer {
 
     //TODO: Move this functionality.
     public String formatLookupWordResp(String word){
-        Word tempWord = dictService.lookupWord(word);
+        Word tempWord = dictService.lookupWord(word.toLowerCase());
         if(tempWord == null || tempWord.getDefinitions().isEmpty()) {
             return "NO_DEF";
         }
@@ -70,7 +70,7 @@ public class UDPServer {
     }
 
     public String formatAddDictionary(String word, String meaning) {
-        boolean check = dictService.addDefinition(word, meaning);
+        boolean check = dictService.addDefinition(word.toLowerCase(), meaning);
         return String.format("El significado de %s%s fue añadido.", word, check ? "" : " no");
     }
 
@@ -135,6 +135,7 @@ public class UDPServer {
         }
 
         System.out.println("SERVER: Listening to clients.");
+
         try {
             while (true) {
                 byte[] buffer = new byte[MAX_BYTES];
