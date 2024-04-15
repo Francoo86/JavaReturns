@@ -43,7 +43,7 @@ public class UDPServer {
             System.out.printf("Setting up server at port %s.\n", port);
         }
         catch (SocketException e) {
-            System.out.printf("[SERVER] Socket (at port %s): %s", port, e.getMessage());
+            System.out.printf("[SERVER] Socket (at port %s): %s\n", port, e.getMessage());
         }
         catch (SQLException e) {
             System.out.println("[SERVER] SQL: " + e.getMessage());
