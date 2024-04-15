@@ -125,7 +125,6 @@ public class UDPServer {
             case CHANGE_CURRENCY -> formatCurrencyResponse(contents);
             default -> "NOT_IMPLEMENTED";
         };
-
     }
 
     public void listenClients() {
