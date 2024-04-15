@@ -37,6 +37,7 @@ public class UDPServer {
             socket = new DatagramSocket(port);
             ConnectionSource source = new JdbcConnectionSource(url);
 
+
             dictService = new DictionaryService(source);
             currencyService = new CurrencyService();
 
