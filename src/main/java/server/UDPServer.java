@@ -37,13 +37,14 @@ public class UDPServer {
             socket = new DatagramSocket(port);
             ConnectionSource source = new JdbcConnectionSource(url);
 
+
             dictService = new DictionaryService(source);
             currencyService = new CurrencyService();
 
             System.out.printf("Setting up server at port %s.\n", port);
         }
         catch (SocketException e) {
-            System.out.println("[SERVER] Socket: " + e.getMessage());
+            System.out.printf("[SERVER] Socket (at port %s): %s\n", port, e.getMessage());
         }
         catch (SQLException e) {
             System.out.println("[SERVER] SQL: " + e.getMessage());
@@ -52,7 +53,7 @@ public class UDPServer {
 
     //TODO: Move this functionality.
     public String formatLookupWordResp(String word){
-        Word tempWord = dictService.lookupWord(word);
+        Word tempWord = dictService.lookupWord(word.toLowerCase());
         if(tempWord == null || tempWord.getDefinitions().isEmpty()) {
             return "NO_DEF";
         }
@@ -70,7 +71,7 @@ public class UDPServer {
     }
 
     public String formatAddDictionary(String word, String meaning) {
-        boolean check = dictService.addDefinition(word, meaning);
+        boolean check = dictService.addDefinition(word.toLowerCase(), meaning);
         return String.format("El significado de %s%s fue añadido.", word, check ? "" : " no");
     }
 
@@ -125,11 +126,16 @@ public class UDPServer {
             case CHANGE_CURRENCY -> formatCurrencyResponse(contents);
             default -> "NOT_IMPLEMENTED";
         };
-
     }
 
     public void listenClients() {
+        if (socket == null) {
+            System.out.println("[SERVER] Socket not initialized properly, ending program...");
+            return;
+        }
+
         System.out.println("SERVER: Listening to clients.");
+
         try {
             while (true) {
                 byte[] buffer = new byte[MAX_BYTES];

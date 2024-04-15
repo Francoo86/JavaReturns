@@ -1,6 +1,10 @@
-# JavaReturns
-Sockets and UDP stuff for DB.
+# Comunicación Cliente-Servidor en Java
+Proyecto que demuestra este tipo de comunicación.  
+Hecho con Java 17.0.10 (64-bit).
 
+# Instrucciones para compilar.
 
-pa compilar ^C@Krosvick ➜ /workspaces/JavaReturns (main) $ jacva -classpath ".:sqlite-jdbc-3.45.2.0.jar:slf4j-api-1.7.36.jar" src/Servidor/ServidorUDP.java
-@Krosvick ➜ /workspaces/JavaReturns (main) $ java -classpath ".:sqlite-jdbc-3.45.2.0.jar:slf4j-api-1.7.36.jar" src/Servidor/ServidorUDP.java
+* Descargar el "Binary Zip" [aquí.](https://maven.apache.org/download.cgi)
+* Seguir los pasos de este [tutorial](https://phoenixnap.com/kb/install-maven-windows) (en inglés).
+* Correr los archivos .bat, el servidor es server.bat y los clientes usarán client.bat.
+* Si no llegase a funcionar algo colocar ``mvn clean install`` en el directorio del proyecto.

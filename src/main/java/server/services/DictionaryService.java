@@ -19,6 +19,7 @@ public class DictionaryService {
     }
 
     public boolean addDefinition(String word, String def) {
+
         return wordDao.addMeaning(word, def);
     }
 
